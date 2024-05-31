@@ -8,7 +8,7 @@ public class EstacFila {
         int capacidade = sc.nextInt();
         Fila fila = new Fila(capacidade);
         System.out.println("Digite o que fazer\n1. Adicionar um carro\n" +
-            "2. Retirar um carro\n3. Consultar um carro\n0 encerra");
+            "2. Retirar um carro\n3. Consultar um carro\n4. Consultar estacionamento\n0. Encerra");
         n = sc.nextInt();
         do {
             String placa;
@@ -36,12 +36,15 @@ public class EstacFila {
                     placa = sc.nextLine();
                     System.out.println(fila.consultaCarro(placa));                  
                     break;
+                case 4:
+                    System.out.println("Estacionamento possui " + capacidade + " vagas no total. " + fila.getTamanho() + " vagas estão sendo utilizadas. " + String.valueOf(capacidade-fila.getTamanho()) + " vagas estão disponíveis.");
+                    break;
                 default:
                     System.out.println("Opção invalida");
                     break;
             }
             System.out.println("Digite o que fazer\n1. Adicionar um carro\n" +
-            "2. Retirar um carro\n3. Consultar um carro\n0 encerra");
+            "2. Retirar um carro\n3. Consultar um carro\n4. Consultar estacionamento\n0. encerra");
             n = sc.nextInt();
         } while (n != 0);
         sc.close();
