@@ -42,7 +42,7 @@ public class Fila {
             tamanho++;
         }
     }
-    public NodeCarro desenfileira () {
+    public String desenfileira () {
         if (estaVazia()) {
             System.out.println("Estacionamento vazio!");
             return null;
@@ -55,30 +55,37 @@ public class Fila {
         }
         tamanho--;
         long permanencia = java.time.Duration.between(temp.getHoraEntrada(), temp.getHoraSaida()).toMinutes();
-        System.out.println("Foram necessárias 0 manobras para remover o carro de placa " + temp.getPlaca() + " que ficou por " + permanencia + " minutos no estacionamento");
-        return temp;
+        return "Foram necessárias 0 manobras para remover o carro de placa " + temp.getPlaca() + " que ficou por " + permanencia + " minutos no estacionamento";
     }
 
-    public NodeCarro desenfileira(int pos){
+    public String desenfileira(String placa){
         if (estaVazia()) {
-            System.out.println("Estacionamento vazio!");
-            return null;
-        }
-        if (pos < 0 || pos >= tamanho) {
-            System.out.println("Posição inválida!");
-            return null;
+            return "Estacionamento vazio!";
         }
         NodeCarro atual = primeiro;
         NodeCarro anterior = null;
-        int index = 0;
         int manobras = 0;
 
-        while (atual != null && index != pos) {
+        while (atual != null && !atual.getPlaca().equals(placa)) {
             anterior = atual;
             atual = atual.getProximo();
-            index++;
             manobras++;
         }
+        if (atual != null) {
+            atual.setHoraSaida(LocalDateTime.now());
+            if (anterior != null) {
+                anterior.setProximo(atual.getProximo());
+            } else {
+                primeiro = atual.getProximo();
+            }
+            if (atual == ultimo) {
+                ultimo = anterior;
+            }
+            tamanho--;
+            long permanencia = java.time.Duration.between(atual.getHoraEntrada(), atual.getHoraSaida()).toMinutes();
+            return "Foram necessárias " + manobras + " manobras para remover o carro de placa " + atual.getPlaca() + " que ficou por " + permanencia + " minutos no estacionamento";
+        }
+        return "Carro de placa " + placa + " não encontrado";
     }
 
 
